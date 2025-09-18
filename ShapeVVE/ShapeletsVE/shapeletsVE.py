@@ -39,7 +39,8 @@ class DVRLChannel(DataEvaluator, ModelMixin):
             l=0.001
     ):
         super().__init__()
-        torch.cuda.set_device(device)
+        if device!='cpu':
+            torch.cuda.set_device(device)
         self.num_ones=0
         self.hidden_dim = hidden_dim
         self.layer_number = layer_number
@@ -124,7 +125,7 @@ class DVRLChannel(DataEvaluator, ModelMixin):
         # 计算基准性能
         y_valid_pred = self.ori_model.predict(x_valid)
         self.valid_perf = self.evaluate(y_valid, y_valid_pred)
-        print(f'valid_pref : {self.valid_perf}')
+        # print(f'valid_pref : {self.valid_perf}')
 
         # 计算预测差异 |y_train - val_model(x_train)|
         y_train_pred = self.val_model.predict(x_train)
@@ -188,7 +189,7 @@ class DVRLChannel(DataEvaluator, ModelMixin):
             for x_batch, y_batch, y_hat_batch in dataloader:
                 batch_count+=1
                 # print(f'train batch : {x_batch.size} {y_batch.size} {y_hat_batch.size}')
-                print(f'the {count} -th epochs {batch_count}-th batch')
+                # print(f'the {count} -th epochs {batch_count}-th batch')
                 x_batch_ve = x_batch.to(self.device).to(torch.float32)
                 y_batch_ve = y_batch.to(self.device).to(torch.float32)
                 y_hat_batch_ve = y_hat_batch.to(self.device).unsqueeze(1).to(torch.float32)
@@ -221,7 +222,7 @@ class DVRLChannel(DataEvaluator, ModelMixin):
                 reward = 1 - self.valid_perf - self.l *sum_1_proper
 
                 # Update DVE
-                print(f'dim_weights:{dim_weights.shape},selected_mask:{select_mask.shape},reward:{reward}')
+                # print(f'dim_weights:{dim_weights.shape},selected_mask:{select_mask.shape},reward:{reward}')
                 loss = criterion(dim_weights_sum, select_mask, reward)
                 loss.backward()
                 optimizer.step()
@@ -236,7 +237,7 @@ class DVRLChannel(DataEvaluator, ModelMixin):
                 epoch_loss += loss.item() * x_batch.size(0)  # 按batch加权
 
             epoch_loss /= len(x_batch)  # 平均损失
-            print(f"Epoch {epoch + 1}/{self.rl_epochs}, Loss: {epoch_loss:.4f}")
+            # print(f"Epoch {epoch + 1}/{self.rl_epochs}, Loss: {epoch_loss:.4f}")
 
         # Final model training with learned weights
         dim_weights = self.value_estimator(self.x_train.to(self.device).to(torch.float32),
@@ -248,7 +249,7 @@ class DVRLChannel(DataEvaluator, ModelMixin):
 
         num_ones = torch.sum(select_mask).float()/select_mask.numel()
         self.num_ones = num_ones.detach().to(self.device).item()
-        print(f'num ones: {num_ones}')
+        # print(f'num ones: {num_ones}')
 
         self.final_model.set_selector(select_mask)
         losses=self.final_model.fit(self.x_train, self.y_train.squeeze(), *args, **kwargs)

@@ -18,6 +18,43 @@ This repository explores the value of **shapelets** to improve the interpretabil
 
 Contributions and feedback are welcome! 🚀
 
+## Configuration
+**Note**: This repository contains large data files. To manage repository size effectively, we have included only the BasicMotions dataset directly. The main dataset `Multivariate2018_arff.zip` located in the `data_files/` folder is managed using [Git LFS](https://git-lfs.com) (Large File Storage).
+
+### For the Multivariate2018_arff.zip Dataset
+
+#### Option 1: Manual Download (Recommended for quick access)
+You can download the complete dataset directly from the source:
+- **Download URL**: http://www.timeseriesclassification.com/aeon-toolkit/Archives/Multivariate2018_arff.zip
+- After downloading, place the file in the `data_files/` folder
+
+#### Option 2: Using Git LFS (For complete repository cloning)
+If you want to clone the entire repository with all files:
+
+1. **Install Git LFS**:
+   ```bash
+   # On Ubuntu/Debian
+   sudo apt-get install git-lfs
+   
+   # On macOS with Homebrew
+   brew install git-lfs
+   
+   # On Windows (Git Bash)
+   git lfs install
+    ```
+2. **Clone the repository with LFS**:
+
+  ```bash
+   git lfs clone https://github.com/your-username/your-repository.git
+   ```
+
+or if you've already cloned without LFS:
+
+  ```bash
+  git lfs pull
+  ```
+
+
 ## Usage
 
 - Two Jupyter notebook examples are provided in Test/Example/ to demonstrate how to run the shapelet learning algorithm:

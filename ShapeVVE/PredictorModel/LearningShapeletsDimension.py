@@ -111,7 +111,8 @@ class LearningShapeletsDimensionSelection(LearningShapelets):
                  dist_measure='euclidean', verbose=0, to_cuda=True,device='cuda', k=0, l1=0.0, l2=0.0,lr=0.01, weight_decay=1e-4):
         super(LearningShapelets, self).__init__()
 
-        torch.cuda.set_device(device)
+        if device!='cpu':
+            torch.cuda.set_device(device)
         # 核心就是包括一系列 blocks，对应产生shapelet的modules
         self.model = LearningShapeletsModelDimensionSelection(shapelets_size_and_len=shapelets_size_and_len,
                                             in_channels=in_channels, num_classes=num_classes, dist_measure=dist_measure,
