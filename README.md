@@ -1,3 +1,7 @@
+# ShapeVVE: Variable Evaluator for Multivariate Time Series Shapelets Extraction
+
+This repository contains the official implementation of the paper "ShapeVVE: Variable Evaluator for multivariate time series shapelets extraction".
+
 ## Description
 This repository provides code for evaluating the utility of shapelets in time series classification tasks. 
 
@@ -13,3 +17,21 @@ This repository explores the value of **shapelets** to improve the interpretabil
 📊 **Applications:** Suitable for time series analysis tasks where both **performance** and **human-understandable explanations** are crucial.  
 
 Contributions and feedback are welcome! 🚀
+
+## Usage
+
+- Two Jupyter notebook examples are provided in Test/Example/ to demonstrate how to run the shapelet learning algorithm:
+
+    - Without dimension selection
+
+    - With dimension selection
+
+## Experiments
+
+- The Test/Experiment/ directory contains:
+
+    - Main results table
+
+    - Friedman test results
+
+    - Wilcoxon signed-rank test results
